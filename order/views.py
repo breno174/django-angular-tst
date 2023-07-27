@@ -5,6 +5,8 @@ from .serializers import OrderSerializer
 # Create your views here.
 class CreateOrderView(APIView):
     def post(self, request: Request):
-        serializer = OrderSerializer(instance=request.data)
+        serializer = OrderSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
 
         return Response({"order": serializer.data}, status.HTTP_201_CREATED)

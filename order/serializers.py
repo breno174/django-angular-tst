@@ -11,3 +11,6 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return Order.objects.create(**validated_data)
+
+class ListOrder(serializers.ListSerializer):
+    ...
