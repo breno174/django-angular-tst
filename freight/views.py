@@ -6,7 +6,7 @@ from freight.models import Freight
 
 
 # Create your views here.
-class CreateFreghtOrder(ListCreateAPIView):
+class CreateAndListFreghtOrder(ListCreateAPIView):
     serializer_class = CreateNewFreight
     queryset = Freight.objects.all()
 

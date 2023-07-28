@@ -1,5 +1,5 @@
 from rest_framework.urls import path
-from freight.views import CreateFreghtOrder
+from freight.views import CreateAndListFreghtOrder
 
 
-urlpatterns = [path("create/", CreateFreghtOrder.as_view())]
+urlpatterns = [path("/", CreateAndListFreghtOrder.as_view())]
