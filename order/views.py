@@ -1,4 +1,5 @@
 from rest_framework.views import APIView, Response, Request, status
+from rest_framework.generics import UpdateAPIView, ListAPIView
 from .serializers import OrderSerializer
 
 
@@ -10,3 +11,11 @@ class CreateOrderView(APIView):
         serializer.save()
 
         return Response({"order": serializer.data}, status.HTTP_201_CREATED)
+
+
+class ListOrderView(ListAPIView):
+    ...
+
+
+class UpdateOrderView(UpdateAPIView):
+    ...

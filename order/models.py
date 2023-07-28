@@ -1,5 +1,7 @@
 from django.db import models
 import uuid
+
+
 # Create your models here.
 class Order(models.Model):
     number = models.UUIDField(primary_key=False, auto_created=True, default=uuid.uuid4)

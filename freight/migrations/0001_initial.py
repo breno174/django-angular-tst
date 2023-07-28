@@ -5,23 +5,37 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('order', '0001_initial'),
+        ("order", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Freight',
+            name="Freight",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('carrier', models.CharField(max_length=255)),
-                ('delivery_time', models.DateField()),
-                ('delivery_coust', models.FloatField()),
-                ('external_freight_id', models.UUIDField(unique=True)),
-                ('order', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='order', to='order.order')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("carrier", models.CharField(max_length=255)),
+                ("delivery_time", models.DateField()),
+                ("delivery_coust", models.FloatField()),
+                ("external_freight_id", models.UUIDField(unique=True)),
+                (
+                    "order",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="order",
+                        to="order.order",
+                    ),
+                ),
             ],
         ),
     ]
