@@ -11,17 +11,12 @@ class CreateFreghtOrder(ListCreateAPIView):
     queryset = Freight.objects.all()
 
     def create(self, request, *args, **kwargs):
-        serilizer = self.get_serializer(data=request.data)
-        serilizer.is_valid(raise_exception=True)
-        self.perform_create(serilizer)
-        return Response(serilizer, status.HTTP_201_CREATED)
-        # return super().create(request, *args, **kwargs)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return Response(serializer.data, status.HTTP_201_CREATED)
 
     def perform_create(self, serializer: CreateNewFreight):
-        print("\nxx", self.request.data, "\n")
-        number = self.request.data
-        order: Order = Order.objects.get(number=number.number)
-        print("\n", order, "\n")
-        freight = serializer.create(order=order)
-        freight.save()
-        # return super().perform_create(serializer)
+        number = self.request.data.get("order_number")
+        order: Order = Order.objects.get(number=number)
+        serializer.save(order=order)
