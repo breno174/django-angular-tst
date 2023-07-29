@@ -1,21 +1,27 @@
 import requests
 from os import getenv
+from .consumer import ConsumerUrlSerializer
 
 
-class MelhorEnvio(object):
+class MelhorEnvio:
     def __init__(self):
-        self.url_api = getenv("API_URL")
+        self.url_api: str = getenv("API_URL")
 
-    def call_api(self, path, data, method):
-        url = f"{self.url_api}"
+    @staticmethod
+    def call_api(data, method):
+        path_serilizer = ConsumerUrlSerializer.create_path_by_body(data)
+        url = f"{MelhorEnvio.url_api}?{path_serilizer}"
 
-        headers = {"Content-Type": "application/json", "Bearer": getenv("API_TOKEN")}
+        headers = {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": getenv("API_TOKEN"),
+            "User-Agent": "ReadMe-API-Explorer",
+        }
 
         try:
-            if method == "GET":
+            if method == "POST":
                 response = requests.get(url, headers=headers)
-            elif method == "POST":
-                response = requests.post(url, headers=headers, data=data)
             else:
                 raise Exception("Invalid method")
         except Exception:
