@@ -1,16 +1,17 @@
 import requests
 from os import getenv
+from dotenv import load_dotenv
 from .consumer import ConsumerUrlSerializer
+
+load_dotenv()
 
 
 class MelhorEnvio:
-    def __init__(self):
-        self.url_api: str = getenv("API_URL")
-
     @staticmethod
     def call_api(data, method):
+        url_api = getenv("API_URL")
         path_serilizer = ConsumerUrlSerializer.create_path_by_body(data)
-        url = f"{MelhorEnvio.url_api}?{path_serilizer}"
+        url = f"{url_api}?{path_serilizer}"
 
         headers = {
             "Accept": "application/json",
@@ -22,6 +23,7 @@ class MelhorEnvio:
         try:
             if method == "POST":
                 response = requests.get(url, headers=headers)
+                return response
             else:
                 raise Exception("Invalid method")
         except Exception:
