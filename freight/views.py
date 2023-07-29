@@ -1,10 +1,8 @@
 from .serializers import CreateNewFreight
 from rest_framework.generics import CreateAPIView, ListCreateAPIView
 from rest_framework.views import Response, status
-from django.forms.models import model_to_dict
 from order.models import Order
 from freight.models import Freight
-from api.context.urls import MelhorEnvio
 import json
 
 
@@ -17,9 +15,7 @@ class CreateAndListFreghtOrder(ListCreateAPIView):
         number = request.data.get("order_number")
         delivery_time = request.data.get("delivery_time")
         order: Order = Order.objects.get(number=number)
-        order_dict = model_to_dict(order)
-        response: bytes = MelhorEnvio.call_api(data=order_dict, method="POST")
-        response = response.json()
+        response = order.delivery_calculation()
 
         response_data = []
         for carrier_data in response:

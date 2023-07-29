@@ -1,4 +1,5 @@
 from django.db import models
+from api.context.urls import MelhorEnvio
 import uuid
 
 
@@ -13,5 +14,6 @@ class Order(models.Model):
     zip_from = models.CharField(max_length=8)
     zip_to = models.CharField(max_length=8)
 
-    def delivery_calculation():
-        ...
+    def delivery_calculation(self) -> list:
+        response: bytes = MelhorEnvio.call_api(data=self.__dict__, method="POST")
+        return response.json()
