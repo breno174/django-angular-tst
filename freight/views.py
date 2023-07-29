@@ -19,4 +19,9 @@ class CreateAndListFreghtOrder(ListCreateAPIView):
     def perform_create(self, serializer: CreateNewFreight):
         number = self.request.data.get("order_number")
         order: Order = Order.objects.get(number=number)
+        # se comunicar com a API e obeter a resposta
+        # passar o path na url do path com os dados do Order
+        # criar um loop para percorrer as resposta possiveis da API
+        ##  calculate delivery_coust com o valor do frete
+        ##  alterar o nome do carrier com a resposta da API
         serializer.save(order=order)
