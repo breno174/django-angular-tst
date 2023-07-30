@@ -16,11 +16,8 @@ class CreateOrderView(APIView):
 
 
 class ListOrderView(ListAPIView):
-    def get(self, request: Request):
-        orders = Order.objects.all()
-        serializer = OrderSerializer(instance=orders, many=True)
-
-        return Response({"stocks": serializer.data}, status.HTTP_200_OK)
+    serializer_class = OrderSerializer
+    queryset = Order.objects.all()
 
 
 class UpdateOrderView(UpdateAPIView):
