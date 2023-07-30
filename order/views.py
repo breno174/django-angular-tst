@@ -3,10 +3,12 @@ from rest_framework.generics import UpdateAPIView, ListAPIView, DestroyAPIView
 from .serializers import OrderSerializer
 from .models import Order
 from .serializers import OrderSerializer
+from drf_spectacular.utils import extend_schema
 
 
 # Create your views here.
 class CreateOrderView(APIView):
+    @extend_schema(responses=OrderSerializer)
     def post(self, request: Request):
         serializer = OrderSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
