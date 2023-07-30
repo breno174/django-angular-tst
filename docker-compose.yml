@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  angulartest:
+    container_name: angulartest
+    build: .
+    volumes:
+      - ./:/app/
+    ports:
+      - 8000:8000
+    command: python manage.py runserver'
+    depends_on:
+      - sqlitedb
+      - migration
+    env_file:
+      - .env
+
+  migration:
+    build: .
+    env_file: .env
+    command: python manage.py migrate
+    volumes:
+      - .:/app
+    depends_on:
+      - sqlitedb
+  sqlitedb:
+    container_name: sqlitedb
+    image: nouchka/sqlite3:latest
+    stdin_open: true
+    tty: true
