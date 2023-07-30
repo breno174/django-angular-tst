@@ -1,6 +1,8 @@
 from rest_framework.views import APIView, Response, Request, status
 from rest_framework.generics import UpdateAPIView, ListAPIView
 from .serializers import OrderSerializer
+from .models import Order
+from .serializers import OrderSerializer
 
 
 # Create your views here.
@@ -14,7 +16,11 @@ class CreateOrderView(APIView):
 
 
 class ListOrderView(ListAPIView):
-    ...
+    def get(self, request: Request):
+        orders = Order.objects.all()
+        serializer = OrderSerializer(instance=orders, many=True)
+
+        return Response({"stocks": serializer.data}, status.HTTP_200_OK)
 
 
 class UpdateOrderView(UpdateAPIView):
