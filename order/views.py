@@ -1,5 +1,5 @@
 from rest_framework.views import APIView, Response, Request, status
-from rest_framework.generics import UpdateAPIView, ListAPIView
+from rest_framework.generics import UpdateAPIView, ListAPIView, DestroyAPIView
 from .serializers import OrderSerializer
 from .models import Order
 from .serializers import OrderSerializer
@@ -25,3 +25,20 @@ class ListOrderView(ListAPIView):
 
 class UpdateOrderView(UpdateAPIView):
     ...
+
+
+class DeleteOrderView(DestroyAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+
+    def destroy(self, request, *args, **kwargs):
+        try:
+            order = Order.objects.get(number=self.kwargs.get("order_number"))
+        except Exception:
+            return Response(
+                {"message": "Order not found"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        order.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
